@@ -4,3 +4,4 @@ composer.lock
 *.log
 *.log.err
 vendor/**
+public_html/google*.html
