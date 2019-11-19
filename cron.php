@@ -140,14 +140,20 @@ foreach ($pendingComments as $comment) {
 
   $thingID = "t3_{$match[1]}";
   $accessToken = $cronnit->getAccessToken($comment->post->account);
-
-  $response = $cronnit->api($accessToken, 'POST', 'api/comment', [
-    'body' => http_build_query([
-      'thing_id' => $thingID,
-      'text' => $comment->body,
-      'return_rtjson' => true
-    ])
-  ]);
+  try {
+    $response = $cronnit->api($accessToken, 'POST', 'api/comment', [
+      'body' => http_build_query([
+        'thing_id' => $thingID,
+        'text' => $comment->body,
+        'return_rtjson' => true
+      ])
+    ]);
+  } catch (\GuzzleHttp\Exception\ClientException $e) {
+    var_dump(json_encode($response));
+    $comment->error = "HTTP Error: {$e->getMessage()}";
+    R::store($comment);
+    continue;
+  }
 
   if (isset($response->permalink)) {
     $comment->url = $response->permalink;
