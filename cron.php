@@ -129,6 +129,8 @@ $pendingComments = R::convertToBeans('comment', R::getAll("
 ", [time()]));
 
 foreach ($pendingComments as $comment) {
+  echo "Posting comment {$comment->id}\n";
+
   if (!preg_match('#comments/([^/]+)/#i', $comment->post->url, $match)) {
     $comment->error = "Malformed link";
     R::store($comment);
