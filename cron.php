@@ -125,6 +125,7 @@ $pendingComments = R::convertToBeans('comment', R::getAll("
     (`comment`.`error` is null) and
     (`comment`.`url` is null) and
     ((`post`.`when` + `comment`.`delay`) < ?)
+  limit 10
 ", [time()]));
 
 foreach ($pendingComments as $comment) {
