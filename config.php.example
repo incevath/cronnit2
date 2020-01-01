@@ -1,7 +1,7 @@
 <?php return [
   'client_id' => 'XXX',
   'client_secret' => 'XXX',
-  'dbdsn' => 'mysql:dbname=XXXX', // you can also use sqlite:foo.db
+  'dbdsn' => 'mysql:dbname=XXXX',
   'dbuser' => 'XXX',
   'dbpass' => 'XXX',
   'url' => 'https://cronnit.us'
