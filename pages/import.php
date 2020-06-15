@@ -41,6 +41,7 @@ if (isset($_POST['submit'])) {
 
   foreach ($header as $index => $column) {
     switch ($column) {
+    case "id":
     case "title":
     case "body":
     case "subreddit":
@@ -79,7 +80,7 @@ if (isset($_POST['submit'])) {
     foreach ($map as $column => $index) {
       $post[$column] = @trim($row[$index]);
 
-      if (strlen($post[$column]) <= 0) {
+      if ($column != "id" && strlen($post[$column]) <= 0) {
         $_SESSION['importerror'] = "No $column for row #$rowNumber";
         $this->redirect('import');
       }
@@ -123,20 +124,38 @@ if (isset($_POST['submit'])) {
       $this->redirect('import');
     }
 
+    if (empty($post->id)) {
+      if ($checkOnly) {
+        continue;
+      }
+
+      $bean = R::dispense('post');
+      $bean->account = $account;
+    } else {
+      $post->id = intval($post->id);
+      $bean = R::load('post', $post->id);
+
+      if (!$bean->id) {
+        $_SESSION['importerror'] = "Invalid ID for row #$rowNumber";
+        $this->redirect('import');
+      }
+
+      if ($bean->account->id != $account->id) {
+        $_SESSION['importerror'] = "Invalid ID for row #$rowNumber";
+        $this->redirect('import');
+      }
+
+      if (isset($bean->url) || isset($bean->error)) {
+        continue;
+      }
+    }
+
     if ($checkOnly) {
       continue;
     }
 
-    $bean = R::findOrCreate('post', [
-      'account' => $account,
-      'title' => $post->title,
-      'subreddit' => $post->subreddit
-    ]);
-
-    if (isset($bean->url) || isset($bean->error)) {
-      continue;
-    }
-
+    $bean->title = $post->title;
+    $bean->subreddit = $post->subreddit;
     $bean->body = $post->body;
     $bean->when = $post->when;
     $bean->whenzone = $post->timezone;
