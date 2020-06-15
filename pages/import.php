@@ -125,6 +125,13 @@ if (isset($_POST['submit'])) {
     }
 
     if (empty($post->id)) {
+      // Safeguard against duplicate CSV imports.
+      $duplicateBean = R::findOne('post', '(`account_id` = ?) and (`when` = ?) and (`title` = ?) and (`subreddit` = ?)', [$account->id, $post->when, $post->title, $post->subreddit]);
+      if ($duplicateBean) {
+        $_SESSION['importerror'] = "Cannot schedule post with same title, subreddit and time as existing one (row #$rowNumber). Note that editing posts now requires the post ID from the export.";
+        $this->redirect('import');
+      }
+
       if ($checkOnly) {
         continue;
       }
