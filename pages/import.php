@@ -109,6 +109,12 @@ if (isset($_POST['submit'])) {
     $post->sendreplies = isset($post->sendreplies) ? intval($post->sendreplies) : 1;
     $post->nsfw = isset($post->nsfw) ? intval($post->nsfw) : 0;
     $post->delete = isset($post->delete) ? intval($post->delete) : 0;
+    $post->delete = $post->delete == 0 ? 0 : 1;
+
+    if ($post->when < time() && ($post->delete != 1)) {
+      $_SESSION['importerror'] = "Scheduled time is in the past for row #$rowNumber";
+      $this->redirect('import');
+    }
 
     $limit = @$account->dailyLimit ?? 5;
 
