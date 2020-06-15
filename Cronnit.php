@@ -209,7 +209,7 @@ class Cronnit {
   }
 
   public function checkPost($account, array $data) {
-    foreach (['subreddit', 'title', 'body', 'whendate', 'whentime'] as $key) {
+    foreach (['subreddit', 'title', 'whendate', 'whentime'] as $key) {
       if (!@is_string($data[$key]) || @strlen(trim($data[$key])) <= 0) {
         return "Missing $key";
       }
