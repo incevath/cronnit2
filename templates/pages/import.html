@@ -2,17 +2,31 @@
 <h3>Bulk Import</h3>
 <p>
   Here you can upload a CSV file that contains many posts you want to
-  schedule. If you import a post that has the same
-  title twice with the same subreddit it will update the existing post
-  unless it was already posted or had an error making it safe to upload the
-  same CSV twice.
+  schedule. You can also edit posts you have scheduled previously if they
+  have not been submitted yet.
 </p>
+
+<div class="alert alert-warning">
+  The method for bulk-editing posts has been changed, see <i>Export and
+  Edit</i> below. The old editing behavior caused awkward limitations (post
+  title/subrredit had to be unique when bulk-importing/editing, even though
+  you could create and edit exact reposts manually in the web interface).
+  The new method fixes that.
+  </br>
+  To avoid accidents, importing the same CSV twice (which would now lead to
+  duplicate posts with identical post time) is prevented. However, attempting
+  to use the old editing method could still result in accidentally scheduling
+  new posts instead, so please check out the new instructions below.
+  </br>
+  If you find bugs or want to share your thoughts on this change, please
+  get in touch!
+</div>
 
 <hr>
 
 <h4>Template</h4>
 <p>
-  A template spreadsheet is provided that shows the format that the CSV file
+  A template spreadsheet is provided that shows the format for the CSV file
   and includes column formatters for the date and time formats. Modify this
   spreadsheet and use the <i>Save Copy</i> or <i>Export</i> feature to save
   a CSV file with UTF-8 encoding.
@@ -21,6 +35,32 @@
   <a href="/template.ods" target="_blank" class="btn btn-primary">
     <span class="fa fa-download"></span>
     Download Template
+  </a>
+</p>
+
+<hr>
+
+<h4>Export and Edit</h4>
+<p>
+  Below you can download all posts you have currently scheduled. Edit, save
+  and import this CSV file as above to update or schedule posts.
+  For each row in the CSV:
+  <ul>
+    <li>
+      If you leave the <i>id</i> value untouched, the corresponding scheduled
+      post will be updated according to your edits.
+    </li>
+    <li>
+      Removing the <i>id</i> value treats the row as a new post to schedule.
+    </li>
+  </ul>
+  To be clear: <strong>Every row without an ID now schedules a new post.</strong>
+  Please check your CSVs before importing to make sure this does what you want.
+</p>
+<p class="text-center">
+  <a href="/export" target="_blank" class="btn btn-primary">
+    <span class="fas fa-file-csv"></span>
+    Export Scheduled Posts
   </a>
 </p>
 
@@ -52,7 +92,7 @@
 
 <h4>CSV Columns</h4>
 <p>
-  Columns names case-sensitive and must be provided unless they are noted as
+  Columns names are case-sensitive and must be provided unless they are noted as
   optional. Their order in the CSV doesn't matter.
 </p>
 <table class="table table-striped table-bordered">
@@ -63,6 +103,12 @@
   </tr>
 </thead>
 <tbody>
+  <tr>
+    <th>id</th>
+    <td>
+      Cronnit-internal ID of the post.
+    </td>
+  </tr>
   <tr>
     <th>title</th>
     <td>Title of the post</td>
@@ -151,6 +197,11 @@
     <label class="form-check-label" for="csv-check-only">
       Only check CSV file don't actually publish
     </label>
+  </div>
+
+  <div class="alert alert-warning">
+    The method for bulk-editing scheduled posts has been changed recently, so please
+    make sure you have read the updated instructions above!
   </div>
 
   <button class="btn btn-primary" type="submit" name="submit" value="1">
