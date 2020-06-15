@@ -10,15 +10,16 @@ require_once __DIR__."/Cronnit.php";
 $cronnit = new Cronnit();
 $cronnit->connect();
 
-$pending = R::find('post', '(`url` is null) and (`error` is null) and (`when` < ?) order by `when` asc', [time()]);
+$pending = R::find('post', '(`url` is null) and (`error` is null) and (`when` < ?) and (`deleted` IS NULL OR `deleted` = 0 ) order by `when` asc', [time()]);
 
 if (empty($pending)) {
-  echo "No posts ready looking for backlog\n";
+  echo "No posts ready. Looking for backlog...\n";
 
   $pending = R::find('post', '
     (`url` is null) and
     (`error` is null) and
-    (`when_original` < ?)
+    (`when_original` < ?) and
+    (`deleted` IS NULL OR `deleted` = 0)
     order by `when_original` asc
     limit 5', [time()]);
 }

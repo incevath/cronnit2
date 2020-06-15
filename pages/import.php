@@ -49,6 +49,7 @@ if (isset($_POST['submit'])) {
     case "timezone":
     case "sendreplies":
     case "nsfw":
+    case "delete":
       break;
     default:
       $_SESSION['importerror'] = "Unknown column '$column'";
@@ -107,6 +108,7 @@ if (isset($_POST['submit'])) {
 
     $post->sendreplies = isset($post->sendreplies) ? intval($post->sendreplies) : 1;
     $post->nsfw = isset($post->nsfw) ? intval($post->nsfw) : 0;
+    $post->delete = isset($post->delete) ? intval($post->delete) : 0;
 
     $limit = @$account->dailyLimit ?? 5;
 
@@ -134,6 +136,7 @@ if (isset($_POST['submit'])) {
     $bean->whenzone = $post->timezone;
     $bean->sendreplies = intval($post->sendreplies);
     $bean->nsfw = intval($post->nsfw);
+    $bean->deleted = intval($post->delete);
     $bean->url = null;
     $bean->error = null;
     $bean->bulk = true;

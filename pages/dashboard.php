@@ -4,7 +4,8 @@ use \RedBeanPHP\R as R;
 
 $account = $this->getAccount();
 $this->vars['account'] = $account;
-$posts = $account->with('order by `when` desc')->ownPostList;
+$posts = $account->withCondition(' ( deleted IS NULL OR deleted = 0 ) ORDER BY `when` DESC ')->ownPostList;
+
 
 switch (@$_GET['view']) {
 case 'calendar':
