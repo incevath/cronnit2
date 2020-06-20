@@ -40,7 +40,7 @@ $accountName = $account->name;
 
 
 // Erase the output buffer contents in case anything ended up in there.
-ob_clean(); // TODO: ob_end_clean() does the same but without buffering anything afterwards...
+ob_end_clean();
 
 // Output the generated CSV file.
 header("Content-Type: text/csv");
