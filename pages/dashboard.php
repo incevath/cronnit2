@@ -10,7 +10,7 @@ function getThumb($body) : string {
   $extension_fix_pat = '#(?<=\.)(mp4|gifv)$#'; 
 
 
-  $div_start = "<div style='position:relative; padding-bottom:147.96%;'>";
+  $div_start = "<div style='position:relative; padding-bottom:100%;'>";
   $div_close = "</div>";
 
   $out = '';
