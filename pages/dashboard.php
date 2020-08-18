@@ -4,7 +4,7 @@ use \RedBeanPHP\R as R;
 
 function getThumb($body) : string {
   $matches = array();
-  $imgur_pattern = '#^http[s]?://i\.imgur\.com/([[:alnum:]]{7})\.(\w+)$#i';
+  $imgur_pattern = '#^http[s]?://i\.imgur\.com/([[:alnum:]]{7,8})\.(\w+)$#i';
   
   $extension_fix_pat = '#(?<=\.)(mp4|gifv)$#'; 
 
