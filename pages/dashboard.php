@@ -22,11 +22,11 @@ function getThumb($body) : string {
     return $out;
   } 
 
-  $redgifs_pat = '#^http[s]?://redgifs\.com/watch/([[:alnum:]-]+)$#i';
+  $redgifs_pat = '#^http[s]?://(www\.)?redgifs\.com/watch/([[:alnum:]]+)(-[[:alnum:]-]+)?$#i';
 
   if (preg_match($redgifs_pat, $body, $matches)) {
     
-    $data_id = $matches[1];
+    $data_id = $matches[2];
     $out = "$div_start<iframe src='https://redgifs.com/ifr/$data_id' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;max-height:256px;' allowfullscreen></iframe>$div_close</p>";
     return $out;
   }
