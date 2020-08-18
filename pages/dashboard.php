@@ -27,7 +27,7 @@ function getThumb($body) : string {
   if (preg_match($redgifs_pat, $body, $matches)) {
     
     $data_id = $matches[2];
-    $out = "$div_start<iframe src='https://redgifs.com/ifr/$data_id?autoplay=0' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;max-height:256px;' allowfullscreen></iframe>$div_close</p>";
+    $out = "$div_start<iframe src='https://redgifs.com/ifr/$data_id?autoplay=0' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;max-height:256px;' allowfullscreen></iframe>$div_close";
     return $out;
   }
 
