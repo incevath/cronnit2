@@ -2,6 +2,7 @@
 
 use \RedBeanPHP\R as R;
 
+
 function getThumb($body) : string {
   $matches = array();
   $imgur_pattern = '#^http[s]?://i\.imgur\.com/([[:alnum:]]{7,8})\.(\w+)$#i';
@@ -32,12 +33,40 @@ function getThumb($body) : string {
   return $out;
 }
 
+
+# Populate view menu, handle view switching
+$this->vars['view_list'] = [
+  [
+    'id'=>'list',
+    'desc' => 'List Posts Chronologically',
+    'template' => 'posts-list.html'
+  ],
+  [
+    'id'=>'body',
+    'desc' => 'Group Posts By Content',
+    'template' => 'posts-body.hmtl'
+  ],
+  [
+    'id'=>'calendar',
+    'desc' => 'Calendar (WIP)',
+    'template' => 'posts-calendar.html'
+  ]
+];
+
+
+# If view is queried from url, tell the session to use that view.
+# If not given, just use the session's previous view
+if(!is_array($_SESSION['view'])) $_SESSION['view'] = [];
+$view = @$_GET['view'];
+$_SESSION['view']['dashboard'] = $view ?? $_SESSION['view']['dashboard'] ?? "list";
+
+
 $account = $this->getAccount();
 $this->vars['account'] = $account;
 $posts = $account->withCondition(' ( deleted IS NULL OR deleted = 0 ) ORDER BY `when` DESC ')->ownPostList;
 
 
-switch (@$_GET['view']) {
+switch ($_SESSION['view']['dashboard']) {
 case 'calendar':
   $this->vars['view'] = 'posts-calendar.html';
   $this->vars['time'] = @$_GET['time'];
