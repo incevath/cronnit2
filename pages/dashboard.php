@@ -6,7 +6,7 @@ function getThumb($body) : string {
   $matches = array();
   $imgur_pattern = '#^http[s]?://i\.imgur\.com/([[:alnum:]]{7})\.(\w+)$#i';
   
-  $extension_fix_pat = '`(?<=\.)(mp4|gifv)$`'; 
+  $extension_fix_pat = '#(?<=\.)(mp4|gifv)$#'; 
 
 
   $div_start = "<div style='max-height:256px;'><div style='position:relative; padding-bottom:147.96%;'>";
@@ -22,7 +22,7 @@ function getThumb($body) : string {
     return $out;
   } 
 
-  $redgifs_pat = '`^http[s]?://redgifs\.com/watch/([[:alnum:]-]+)$`i';
+  $redgifs_pat = '#^http[s]?://redgifs\.com/watch/([[:alnum:]-]+)$#i';
 
   if (preg_match($redgifs_pat, $body, $matches)) {
     
