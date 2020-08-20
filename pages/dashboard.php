@@ -12,14 +12,14 @@ function getThumb($body) : string {
     $out = $body;
     // Convert to 160x160 thumbnail URL - handles both images and gifs.
     $out = preg_replace($imgur_pattern, '\1\2t.jpg', $out);
-    $out = "<img class='img-thumbnail img-fluid' src='$out'>";
+    $out = "<img class='img-thumbnail img-fluid' loading='lazy' src='$out'>";
     return $out;
   }
 
   $redgifs_pat = '#^http[s]?://(www\.)?redgifs\.com/watch/([[:alnum:]]+)(-[[:alnum:]-]+)?$#i';
   if (preg_match($redgifs_pat, $body, $matches)) {
     $data_id = $matches[2];
-    $out = "<iframe class='img-thumbnail img-fluid' src='https://redgifs.com/ifr/$data_id?autoplay=0' frameborder='0' scrolling='no' allowfullscreen></iframe>";
+    $out = "<iframe class='img-thumbnail img-fluid' src='https://redgifs.com/ifr/$data_id?autoplay=0' loading='lazy' frameborder='0' scrolling='no' allowfullscreen></iframe>";
     return $out;
   }
 
