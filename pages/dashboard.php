@@ -7,22 +7,19 @@ function getThumb($body) : string {
   $matches = array();
   $out = '';
 
-  $div_start = "<div style='position:relative; padding-bottom:100%;'>";
-  $div_close = "</div>";
-
   $imgur_pattern = '#^(http[s]?://i\.imgur\.com/)([[:alnum:]]{7})([[:alnum:]])?\.(\w+)$#i';
   if (preg_match($imgur_pattern, $body, $matches)) {
     $out = $body;
     // Convert to 160x160 thumbnail URL - handles both images and gifs.
     $out = preg_replace($imgur_pattern, '\1\2t.jpg', $out);
-    $out = "$div_start<img class='img-thumbnail' style='position:absolute;max-width:100%;max-height:100%;' src='$out'>$div_close";
+    $out = "<img class='img-thumbnail img-fluid' src='$out'>";
     return $out;
   }
 
   $redgifs_pat = '#^http[s]?://(www\.)?redgifs\.com/watch/([[:alnum:]]+)(-[[:alnum:]-]+)?$#i';
   if (preg_match($redgifs_pat, $body, $matches)) {
     $data_id = $matches[2];
-    $out = "$div_start<iframe src='https://redgifs.com/ifr/$data_id?autoplay=0' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;max-height:256px;' allowfullscreen></iframe>$div_close";
+    $out = "<iframe class='img-thumbnail img-fluid' src='https://redgifs.com/ifr/$data_id?autoplay=0' frameborder='0' scrolling='no' allowfullscreen></iframe>";
     return $out;
   }
 
