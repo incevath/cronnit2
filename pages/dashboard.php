@@ -5,25 +5,21 @@ use \RedBeanPHP\R as R;
 
 function getThumb($body) : string {
   $matches = array();
-  $imgur_pattern = '#^http[s]?://i\.imgur\.com/([[:alnum:]]{7,8})\.(\w+)$#i';
-
-  $extension_fix_pat = '#(?<=\.)(mp4|gifv)$#'; 
-
+  $out = '';
 
   $div_start = "<div style='position:relative; padding-bottom:100%;'>";
   $div_close = "</div>";
 
-  $out = '';
+  $imgur_pattern = '#^(http[s]?://i\.imgur\.com/)([[:alnum:]]{7})([[:alnum:]])?\.(\w+)$#i';
   if (preg_match($imgur_pattern, $body, $matches)) {
     $out = $body;
-    // Replace video urls with static .jpg previews
-    $out = preg_replace($extension_fix_pat, 'jpg', $out);
+    // Convert to 160x160 thumbnail URL - handles both images and gifs.
+    $out = preg_replace($imgur_pattern, '\1\2t.jpg', $out);
     $out = "$div_start<img class='img-thumbnail' style='position:absolute;max-width:100%;max-height:100%;' src='$out'>$div_close";
     return $out;
   }
 
   $redgifs_pat = '#^http[s]?://(www\.)?redgifs\.com/watch/([[:alnum:]]+)(-[[:alnum:]-]+)?$#i';
-
   if (preg_match($redgifs_pat, $body, $matches)) {
     $data_id = $matches[2];
     $out = "$div_start<iframe src='https://redgifs.com/ifr/$data_id?autoplay=0' frameborder='0' scrolling='no' width='100%' height='100%' style='position:absolute;top:0;left:0;max-height:256px;' allowfullscreen></iframe>$div_close";
