@@ -18,7 +18,7 @@ function getThumb($body) : string {
     $out = $body;
     // Replace video urls with static .jpg previews
     $out = preg_replace($extension_fix_pat, 'jpg', $out);
-    $out = "$div_start<img src='$out' style='position:absolute;top:0;left:0;width:100%;height:100%;'>$div_close";
+    $out = "$div_start<img class='img-thumbnail' style='position:absolute;max-width:100%;max-height:100%;' src='$out'>$div_close";
     return $out;
   }
 
