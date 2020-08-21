@@ -3,6 +3,16 @@
 use \RedBeanPHP\R as R;
 
 
+function is_url($uri) {
+  return preg_match(
+      '/^(http|https):'.
+      '\\/\\/[a-z0-9_]+([\\-\\.]{1}[a-z_0-9]+)*\\.[_a-z]{2,5}'.
+      '((:[0-9]{1,5})?\\/.*)?$/i',
+      $uri
+  );
+}
+
+
 function getThumb($body) : string {
   $matches = array();
   $out = '';
@@ -56,6 +66,7 @@ if (isset($view)) $view = (string) $view;
 $_SESSION['view']['dashboard'] = $view ?? $_SESSION['view']['dashboard'] ?? "list";
 
 
+
 $account = $this->getAccount();
 $this->vars['account'] = $account;
 $posts = $account->withCondition(' ( deleted IS NULL OR deleted = 0 ) ORDER BY `when` DESC ')->ownPostList;
@@ -72,6 +83,23 @@ case 'calendar':
     $month = date('n', $post->when_original);
     $day = date('j', $post->when_original);
     $indexedPosts[$year][$month][$day][] = $post;
+  }
+
+  $this->vars['posts'] = $indexedPosts;
+
+  break;
+case 'body':
+
+  $this->vars['view'] = 'posts-body.html';
+
+  $indexedPosts = [];
+  foreach ($posts as $post) {
+    $body = $post['body'];
+
+    if (!is_url($body)) continue;
+
+    $post['thumb'] = getThumb($body);
+    $indexedPosts[$body][] = $post;
   }
 
   $this->vars['posts'] = $indexedPosts;

@@ -1,0 +1,29 @@
+<div class="container-fluid">
+{% for url, instances in posts %}
+  {% set first_post = instances|first %} 
+  {% set instance_id = first_post.id %}
+  <div class="row">
+  <div class="col-12">
+  <div id="instance-{{ instance_id }}" class="card mb-3 w-100">
+    <div class="row no-gutters">
+    <div id="thumb-{{ instance_id }}" class="col-md-3">
+      {{ first_post.thumb | raw}}
+    </div>
+    <div class="col-md-9">
+    <div class="card-body">
+    {% for post in instances %}
+      <div class="row no-gutters" id="post-{{ post.id }}">
+        <div name="subreddit" class="col-3 card-text">{{ post.subreddit }}</div>
+        <div name="title" class="col-4 card-text"><a href="/edit?id={{ post.id }}">{{ post.title }}</a></div>
+        <div name="when" class="col-5 card-text">{{ post.when | date("d/m/Y g:ia", timezone) }}</div>
+      </div>
+    {% endfor %}
+    </div>
+    </div>
+    </div>
+    </div>
+  </div>  
+  </div>
+{% endfor %}
+</div>
+</div>
