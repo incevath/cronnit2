@@ -92,6 +92,7 @@ case 'body':
 
   $this->vars['view'] = 'posts-body.html';
 
+
   $indexedPosts = [];
   foreach ($posts as $post) {
     $body = $post['body'];
