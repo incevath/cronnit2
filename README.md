@@ -12,6 +12,7 @@ If you have a fresh server you can run the install script:
 
     wget https://raw.githubusercontent.com/krisives/cronnit.us/master/install.sh
     nano install.sh # Enter your hostname, client_id, etc.
+    chmod +x install.sh
     sudo ./install.sh
 
 This will:
