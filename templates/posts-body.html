@@ -9,7 +9,9 @@
 
     <!-- Thumbnail -->
     <div id="thumb-{{ instance_id }}" class="col-md-2 pr-3 my-auto">
-      {{ first_post.thumb | raw}}
+      {% embed "thumbnail_dispatch.html" with {thumb: first_post.thumb} only %}
+        {% use "thumbnail.html" %}
+      {% endembed %}
     </div>
 
     <!-- Text grid -->
