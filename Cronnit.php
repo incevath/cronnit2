@@ -208,7 +208,7 @@ class Cronnit {
     return $date->format("H:i");
   }
 
-  public function checkPost($account, array $data) {
+  public function checkPost($account, bool $isEdit, array $data) {
     foreach (['subreddit', 'title', 'whendate', 'whentime'] as $key) {
       if (!@is_string($data[$key]) || @strlen(trim($data[$key])) <= 0) {
         return "Missing $key";
@@ -216,12 +216,14 @@ class Cronnit {
     }
 
     $limit = @$account->dailyLimit ?? 5;
+    $editBonus = $isEdit ? 1 : 0; // bug 26
     $when = $this->convertTime($data['whendate'], $data['whentime'], $data['whenzone']);
 
-    if ($this->countDailyPosts($account, $when) >= $limit) {
+    if ($this->countDailyPosts($account, $when) >= $limit + $editBonus) {
       return "You have exceeded your daily posting limit of $limit posts";
     }
   }
+
 
   public function getAccessToken($account) {
     $token = json_decode($account->token, true);
