@@ -22,7 +22,7 @@
         <div class="row mb-2" id="post-{{ post.id }}">
           <div name="subreddit" class="col-4 col-md-3 card-text">{{ post.subreddit }}</div>
           <div name="title" class="col-5 col-md-6 card-text"><a href="/edit?id={{ post.id }}">{{ post.title }}</a></div>
-          <div name="when" class="col-3 card-text">{{ post.when | date("d/m/Y g:ia", timezone) }}</div>
+          <div name="when" class="col-3 card-text">{{ post.when | date("d/m/Y g:ia T", timezone=post.whenzone) }}</div>
         </div>
       {% endfor %}
 
