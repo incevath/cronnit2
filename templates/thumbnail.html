@@ -19,19 +19,19 @@ these blocks.
 
 {% block gfy %}
 <iframe 
-  class="embed-responsive-item img-thumbnail img-fluid" 
+  class="embed-responsive-item img-thumbnail img-fluid lazyload" 
   loading="lazy" 
   scrolling="no"
-  src="https://{{ thumb['src'] }}.com/ifr/{{ thumb['slug'] }}?autoplay=0"
+  data-src="https://{{ thumb['src'] }}.com/ifr/{{ thumb['slug'] }}?autoplay=0"
   allowfullscreen>
 </iframe>
 {% endblock gfy %}
 
 {% block imgur %}
 <img 
-  class="img-thumbnail img-fluid" 
+  class="img-thumbnail img-fluid lazyload" 
   loading="lazy" 
-  src="https://i.imgur.com/{{ thumb['slug'] }}t.jpg">
+  data-src="https://i.imgur.com/{{ thumb['slug'] }}t.jpg">
 {% endblock imgur %}
 
 {#
