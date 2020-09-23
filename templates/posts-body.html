@@ -2,27 +2,32 @@
 {% for url, instances in posts %}
   {% set first_post = instances|first %}
   {% set instance_id = first_post.id %}
-  <!-- One card per post body -->
+  {# <!-- One card per post body --> #}
   <div class="row">
-  <div id="instance-{{ instance_id }}" class="card mb-3 p-3 w-100">
+  <div id="instance-{{ instance_id }}" class="card mb-3 px-3 pb-0 pt-3 pt-md-0 w-100">
   <div class="row no-gutters">
 
-    <!-- Thumbnail -->
-    <div id="thumb-{{ instance_id }}" class="col-md-2 pr-3 my-auto">
+    {# <!-- Thumbnail --> #}
+    <div id="thumb-{{ instance_id }}" class="col-md-2 pr-md-3 my-md-auto" >
       {% embed "thumbnail_dispatch.html" with {thumb: first_post.thumb} only %}
-        {% use "thumbnail.html" %}
+        {% use "thumbnail_body.html" %}
       {% endembed %}
     </div>
 
-    <!-- Text grid -->
-    <div class="col-md-10">
-
-      <!-- Existing posts -->
+    {# <!-- Text grid --> #}
+    <div class="card-body col-md-10">
+      {# <!-- Existing posts --> #}
       {% for post in instances %}
-        <div class="row mb-2" id="post-{{ post.id }}">
-          <div name="subreddit" class="col-4 col-md-3 card-text">{{ post.subreddit }}</div>
-          <div name="title" class="col-5 col-md-6 card-text"><a href="/edit?id={{ post.id }}">{{ post.title }}</a></div>
-          <div name="when" class="col-3 card-text">{{ post.when | date("d/m/Y g:ia T", timezone=post.whenzone) }}</div>
+        <div class="row no-gutters row-striped" id="post-{{ post.id }}">
+          <div class="col-5 row no-gutters">
+            <div name="subreddit" class="col-12 col-md-5 pl-2 card-text">{{ post.subreddit }}</div>
+            <div name="title"     class="col-12 col-md-7 pl-2 card-text"><a href="/edit?id={{ post.id }}">{{ post.title }}</a></div>
+          </div>
+          <div name="whens" class="col-6 row no-gutters">
+            <div name="whendate"  class="col-12 col-md-4 pl-2 card-text">{{ post.when | date("d/m/Y", timezone=post.whenzone) }}</div>
+            <div name="whentime"  class="col-12 col-md-4 pl-2 card-text">{{ post.when | date("g:ia", timezone=post.whenzone) }}</div> 
+            <div name="whenzone"  class="col-12 col-md-4 pl-2 card-text">{{ post.when | date("T", timezone=post.whenzone) }}</div>
+          </div>
         </div>
       {% endfor %}
 
@@ -38,34 +43,37 @@
         {% set add_when_zone = add_id ~ "-whenzone" %}
         {% set add_submit = add_id ~ "-submit" %}
         <div class="form-row" id="{{ add_id }}">
-          <div class="col-2">
+          <div name="info" class="col-5 row no-gutters">
+          <div class="col-12 col-md-5">
             <label class="sr-only" for="{{ add_subreddit }}" >Subreddit</label>
             <input class="form-control form-control-sm" name="subreddit" type="text" id="{{ add_subreddit }}" placeholder="Subreddit" >
           </div>
-          <div class="col-3">
+          <div class="col-12 col-md-7 h-100">
             <label class="sr-only" for="{{ add_title }}" >Title</label>
-            <input class="form-control form-control-sm" name="title" type="text" id="{{ add_title }}" placeholder="Title" >
+            <input class="form-control form-control-sm mh-100" name="title" type="text" id="{{ add_title }}" placeholder="Title" rows=1>
           </div>
-          <div class="col-2">
-            <label class="sr-only" for="{{ add_when_date }}" >Date To Submit</label>
-            <input class="form-control form-control-sm" name="whendate" type="date" id="{{ add_when_date }}">
           </div>
-          <div class="col-2">
-            <label class="sr-only" for="{{ add_when_time }}" >Time To Submit</label>
-            <input class="form-control form-control-sm" name="whentime" type="time" id="{{ add_when_time }}">
-          </div>
-          <div class="col-2">
-            <label class="sr-only" for="{{ add_when_zone }}" >Timezone</label>
-            <input class="form-control form-control-sm" name="whenzone" type="text" id="{{ add_when_zone }}" value="UTC">
+          <div name="whens" class="col-6 row no-gutters">
+            <div class="col-12 col-md-4" >
+              <label class="sr-only" for="{{ add_when_date }}" >Date To Submit</label>
+              <input class="form-control form-control-sm inline-date" name="whendate" type="date" id="{{ add_when_date }}">
+            </div>
+              <div class="col-12 col-md-4"> 
+              <label class="sr-only" for="{{ add_when_time }}" >Time To Submit</label>
+              <input class="form-control form-control-sm" name="whentime" type="time" id="{{ add_when_time }}">
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="sr-only" for="{{ add_when_zone }}" >Timezone</label>
+              <input class="form-control form-control-sm" name="whenzone" type="text" id="{{ add_when_zone }}" value="UTC">
+            </div>
           </div>
           <div class="col-1">
-            <button type="submit" class="btn btn-success btn-block btn-sm" id="{{ add_submit }}" title="Add post with same body">+</button>
+            <button type="submit" class="btn btn-success btn-block btn-sm h-100 pl-1 px-md-auto font-weight-bolder text-center" id="{{ add_submit }}" title="Add post with same body">+</button>
             <input type="hidden" name="body" value="{{ url }}">
           </div>
         </div>
       </form>
     </div>
-
   </div>
   </div>
   </div>
