@@ -204,7 +204,7 @@ su cronnit <<EOF
     git branch --set-upstream-to=origin/master master
     composer update
 
-    if ! crontab -l | grep cron.php; then
+    if ! crontab -l | grep cron.sh; then
         (
             crontab -l 2> /dev/null;
             echo "* * * * * /home/cronnit/cron.sh";
