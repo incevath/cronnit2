@@ -10,7 +10,7 @@ if (!isset($_GET['code']) && !isset($_GET['error'])) {
   $_SESSION['reddit_oauth_state'] = substr(mt_rand().mt_rand().mt_rand(), 0, 10);
 
   $url = $this->getReddit()->getAuthorizationUrl([
-    'duration' => 'permanent',
+//    'duration' => 'permanent',
     'state' => $_SESSION['reddit_oauth_state'],
     'scope' => 'identity submit'
   ]);
