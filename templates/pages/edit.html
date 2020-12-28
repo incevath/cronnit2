@@ -1,4 +1,3 @@
-
 {% if error %}
 <div class="alert alert-danger">
   <i class="fa fa-exlamation-triangle"></i>
@@ -35,7 +34,7 @@
 <form method="post">
   {% if post.url is empty %}
   <div class="form-group">
-    <label for="subreddit">Sub Reddit</label>
+    <label for="subreddit">Subreddit</label>
     <input type="text" name="subreddit" class="form-control" id="subreddit" placeholder="/r/kde" value="{{ post.subreddit }}">
   </div>
   <div class="form-group">
