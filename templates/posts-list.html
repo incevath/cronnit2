@@ -26,7 +26,7 @@
   </td>
   <td>{{ post.subreddit }}</td>
   <td>
-    <span title="{{ (post.when_original ?? post.when) | date("d/m/Y g:ia T", timezone=post.whenzone) }}">
+    <span title="{{ (post.when_original ?? post.when) | date("Y-m-d g:ia T", timezone=post.whenzone) }}">
       {{ (post.when_original ?? post.when) | time_diff }}
     </span>
   </td>
