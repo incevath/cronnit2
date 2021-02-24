@@ -61,6 +61,12 @@ foreach ($pending as $post) {
     'resubmit' => true
   ];
 
+  if (preg_match('#^/?u/([^/]+)/?$#i', $data['sr'])) {
+    $data['sr'] = trim($data['sr'], '/');
+    $data['sr'] = str_replace($data['sr'], '/', '_');
+    $data['submit_type'] = 'profile';
+  }
+
   if (preg_match('#^http[s]?://#i', $post->body)) {
     $data['kind'] = 'link';
     $data['url'] = trim($post->body);
