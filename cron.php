@@ -62,8 +62,6 @@ foreach ($pending as $post) {
   ];
 
   if (preg_match('#^/?u/([^/]+)/?$#i', $data['sr'])) {
-    $data['sr'] = trim($data['sr'], '/');
-    $data['sr'] = str_replace($data['sr'], '/', '_');
     $data['submit_type'] = 'profile';
   }
 
