@@ -58,7 +58,9 @@ foreach ($pending as $post) {
     'api_type' => 'json',
     'sendreplies' => intval($post->sendreplies),
     'nsfw' => intval($post->nsfw),
-    'resubmit' => true
+    'resubmit' => true,
+    'flair_id' => $post->flair_id,
+    'flair_text' => $post->flair_text
   ];
 
   if (preg_match('#^/?u/([^/]+)/?$#i', $data['sr'])) {
