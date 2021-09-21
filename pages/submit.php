@@ -5,7 +5,7 @@ use \RedBeanPHP\R as R;
 $account = $this->getAccount();
 
 if (!isset($_POST['submit'])) {
-  $this->vars['error'] = $_SESSION['submiterror'];
+  $this->vars['error'] = @$_SESSION['submiterror'];
   unset($_SESSION['submiterror']);
   return;
 }
