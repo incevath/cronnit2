@@ -118,8 +118,8 @@ if (isset($_POST['submit'])) {
     }
 
     $limit = @$account->dailyLimit ?? 5;
-
-    if ($this->countDailyPosts($account, $post->when) >= $limit) {
+    $editBonus = empty($post->id) ? 0 : 1; // bug 26, now also fixed for import
+    if (($post->delete != 1) && $this->countDailyPosts($account, $post->when) >= $limit) {
       $_SESSION['importerror'] = "Row #$rowNumber exceeds daily post limit of $limit";
       $this->redirect('import');
     }
