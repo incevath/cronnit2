@@ -55,6 +55,34 @@ function getThumb($body) : array {
   return $out;
 }
 
+function getListView($page, $page_size, $account) {
+  $posts = $account->withCondition('
+    ( deleted IS NULL OR deleted = 0 ) 
+    ORDER BY `when` DESC 
+    LIMIT :page_size OFFSET :page_off;',
+    [
+      ":page_size" => $page_size,
+      ":page_off"  => ($page - 1)*$page_size
+    ]
+  )->ownPostList;
+
+  foreach ($posts as $i => $post) {
+	  $posts[$i]['thumb'] = getThumb($post['body']);
+  }
+  return $posts;
+}
+
+function getListViewPageCount($page_size, $account) : int {
+  $post_count = $account->
+    withCondition('( deleted IS NULL OR deleted = 0 )')->
+    countOwn( 'post' );
+  
+  $out = 1; 
+
+  if ($post_count > $page_size) $out = (int) ceil($post_count / $page_size);
+
+  return $out;  
+}
 
 # Populate view menu, handle view switching
 $this->vars['view_list'] = [
@@ -78,22 +106,32 @@ $this->vars['view_list'] = [
 
 # If view is queried from url, tell the session to use that view.
 # If not given, just use the session's previous view
-if(!is_array($_SESSION['view'])) $_SESSION['view'] = [];
+if(!is_array(@$_SESSION['view'])) $_SESSION['view'] = [];
 $view = @$_GET['view'];
 if (isset($view)) $view = (string) $view;
 
 $_SESSION['view']['dashboard'] = $view ?? $_SESSION['view']['dashboard'] ?? "list";
 
 
+# Get the page from the url
+$page = (int) (@$_GET['page'] ?? 1);
+$page = $page > 0 ? $page : 1;
+
+$this->vars["page"] = $page;
+
+$page_size = (int) (@$_GET['page_size'] ?? 50);
+$page_size = $page_size >= 1 ? $page_size : 50;
+
+$this->vars['page_size'] = $page_size;
 
 $account = $this->getAccount();
 $this->vars['account'] = $account;
-$posts = $account->withCondition(' ( deleted IS NULL OR deleted = 0 ) ORDER BY `when` DESC ')->ownPostList;
-
 
 switch ($_SESSION['view']['dashboard']) {
 case 'calendar':
   $this->vars['view'] = 'posts-calendar.html';
+  $posts = getListView($page, $page_size, $account);
+
   $this->vars['time'] = @$_GET['time'];
   $indexedPosts = [];
 
@@ -111,6 +149,7 @@ case 'body':
 
   $this->vars['view'] = 'posts-body.html';
 
+  $posts = $account->withCondition(' ( deleted IS NULL OR deleted = 0 ) ORDER BY `when` DESC ')->ownPostList;
   $indexedPosts = [];
   foreach ($posts as $post) {
     $body = $post['body'];
@@ -122,16 +161,14 @@ case 'body':
   }
 
   $this->vars['posts'] = $indexedPosts;
-
+  $this->vars['n_pages'] = 1;
   break;
 case 'list':
 default:
   $this->vars['view'] = 'posts-list.html';
-
-  foreach ($posts as $i => $post) {
-	  $posts[$i]['thumb'] = getThumb($post['body']);
-
-  }
+  $posts = getListView($page, $page_size, $account);
+  $this->vars['n_pages'] = getListViewPageCount($page_size, $account); 
   $this->vars['posts'] = $posts;
   break;
 }
+

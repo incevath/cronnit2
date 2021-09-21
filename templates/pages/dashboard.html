@@ -45,7 +45,7 @@
       Export
     </a>
   </div>
-  <div class="col-md col-6">
+  <div class="col-lg col-6">
     <div class="dropdown show">
       <a class="btn btn-secondary btn-block dropdown-toggle" href="#" role="button" id="viewSelect" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         View
@@ -58,7 +58,61 @@
     </div>
   </div>
 </div>
+<div class="mt-3">
+  {% block pagination %}
+  <nav aria-label="Navigate to other pages">
+    <ul class="pagination justify-content-center">
+      {% if page != 1 %}
+      <li class="page-item">
+        <a class="page-link" href="?page=1&page_size={{ page_size }}">
+          First
+        </a>
+      </li>
+      {% else %}  
+      <li class="page-item disabled">
+        <span class="page-link">
+          First
+        </span>
+      </li>
+      {% endif %}
+      {% for i in range(max(page - 6, 1), min(page + 6, n_pages)) %}
+      {% block page_item %}
+        {% if i == page %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            {{ i }}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+        {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ i }}&page_size={{ page_size }}">{{ i }}</a>
+        </li>
+        {% endif %}
+      {% endblock page_item %}
+      {% endfor %}
+      {% if page != n_pages %} 
+      <li class="page-item">
+        <a class="page-link" href="?page={{ n_pages }}&page_size={{ page_size }}">
+          Last ({{ n_pages }})
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item disabled">
+        <span class="page-link" >
+          Last ({{ n_pages }})
+        </span>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endblock pagination %}
+</div>
 
 </p>
 
 {% include view %}
+
+<div>
+{{ block("pagination") }}
+</div>
