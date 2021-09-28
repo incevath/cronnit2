@@ -44,11 +44,11 @@ if ! swapon -s | grep "/swapfile"; then
 fi
 
 # Fetch and install updates first
-apt update
-apt upgrade -y
+apt-get update
+apt-get upgrade -y
 
 # Install MySQL and some basic utilities
-apt install -y \
+apt-get install -y \
     mariadb-server \
     apache2 \
     libapache2-mod-php \
@@ -61,7 +61,7 @@ apt install -y \
     certbot
 
 # Install PHP modules
-apt install -y \
+apt-get install -y \
     php-xml \
     php-mysql \
     php-mbstring \
@@ -214,7 +214,7 @@ su cronnit <<EOF
 EOF
 
 # Cleanup any packages waiting to be removed
-apt autoremove -y
+apt-get autoremove -y
 
 # Ensure the server gets automatic security upgrades
 echo unattended-upgrades unattended-upgrades/enable_auto_updates boolean true | debconf-set-selections
