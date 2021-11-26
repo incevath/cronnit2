@@ -2,7 +2,7 @@
 # Cronnit
 
 A free service for making scheduled posts to Reddit. It's available at
-https://cronnit.us or you can download the code and host it yourself!
+https://cronnit.com or you can download the code and host it yourself!
 
 ## Installation
 
@@ -10,7 +10,7 @@ https://cronnit.us or you can download the code and host it yourself!
 
 If you have a fresh server you can run the install script:
 
-    wget https://raw.githubusercontent.com/krisives/cronnit.us/master/install.sh
+    wget https://raw.githubusercontent.com/krisives/cronnit.com/master/install.sh
     nano install.sh # Enter your hostname, client_id, etc.
     chmod +x install.sh
     sudo ./install.sh
@@ -51,7 +51,7 @@ with the `HTTP_ONLY` environment variable set:
 If you want to run Cronnit using the PHP development server:
 
     sudo apt install php-cli php-sqlite3 composer
-    git clone git@github.com:/krisives/cronnit.us.git
+    git clone git@github.com:/krisives/cronnit.com.git
     cd cronnit
     composer update
     cp config.php.example config.php
@@ -130,4 +130,4 @@ You should be able to access the server by navigating to `cronnit.local` in your
 ## Donate
 
 If you find Cronnit useful as a tool or source please consider
-[making a donation](https://cronnit.us/donate)!
+[making a donation](https://cronnit.com/donate)!
