@@ -169,7 +169,7 @@ mysql -uroot -sse "FLUSH PRIVILEGES;"
 
 # Download the cronnit SQL schema and import it
 if [ ! -f /root/cronnit.sql ]; then
-    wget -O /root/cronnit.sql "https://cronnit.us/cronnit.sql"
+    wget -O /root/cronnit.sql "https://cronnit.com/cronnit.sql"
 fi
 
 mysql -uroot cronnit < /root/cronnit.sql
